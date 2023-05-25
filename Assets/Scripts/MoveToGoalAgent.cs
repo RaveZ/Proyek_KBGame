@@ -7,7 +7,6 @@ using Unity.MLAgents.Actuators;
 
 public class MoveToGoalAgent : Agent
 {
-
     [SerializeField] private Transform targetTransform;
     [SerializeField] private Material winMaterial;
     [SerializeField] private Material loseMaterial;

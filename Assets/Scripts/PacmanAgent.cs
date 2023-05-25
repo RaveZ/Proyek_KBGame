@@ -9,7 +9,6 @@ public class PacmanAgent : Agent
     {
         if (other.gameObject.CompareTag("Trap"))
         {
-            print("hit Trap");
             SetReward(-2f);
             EndEpisode();
         }
