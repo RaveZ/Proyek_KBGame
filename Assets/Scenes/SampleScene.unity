@@ -582,7 +582,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 741662357f67fd84c946b43cd6e0acd8, type: 2}
+  - {fileID: 2100000, guid: d9ad39362c9b6e241a7a4e8038fe9e44, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -976,6 +976,10 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 51
       objectReference: {fileID: 0}
+    - target: {fileID: 4444912763740727166, guid: 2d027b33062117a4f8fee8f194dc4f68, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4603366005672457527, guid: 2d027b33062117a4f8fee8f194dc4f68, type: 3}
       propertyPath: m_LocalScale.y
       value: 10
@@ -987,6 +991,10 @@ PrefabInstance:
     - target: {fileID: 6372904693560526679, guid: 2d027b33062117a4f8fee8f194dc4f68, type: 3}
       propertyPath: m_LocalScale.y
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6475866406167470345, guid: 2d027b33062117a4f8fee8f194dc4f68, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.47
       objectReference: {fileID: 0}
     - target: {fileID: 6794985233031203372, guid: 2d027b33062117a4f8fee8f194dc4f68, type: 3}
       propertyPath: m_LocalScale.y
@@ -1017,8 +1025,16 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8916648412077301756, guid: 2d027b33062117a4f8fee8f194dc4f68, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916648412077301756, guid: 2d027b33062117a4f8fee8f194dc4f68, type: 3}
       propertyPath: m_LocalScale.y
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916648412077301756, guid: 2d027b33062117a4f8fee8f194dc4f68, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.1
       objectReference: {fileID: 0}
     - target: {fileID: 8916648412090727867, guid: 2d027b33062117a4f8fee8f194dc4f68, type: 3}
       propertyPath: m_LocalScale.y
