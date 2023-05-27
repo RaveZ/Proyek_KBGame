@@ -4,20 +4,27 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
+using System.Linq;
 
 public class MazeAgent : Agent
 {
-    [SerializeField] private Vector3[] checkPoint;
-    [SerializeField] private Transform exitDoor;
+    [SerializeField] private GameObject[] level;
+    //[SerializeField] private Transform[] checkPoint;
+    //[SerializeField] private Transform[] exitDoor;
     [SerializeField] private float speed= 3f;
     [SerializeField] private float jumpPower=20f;
-    [SerializeField] private int startLevel = 1;
+    [SerializeField] private int curLevel = 0;
+    private GameObject[] coins;
     private int coinCounter = 0;
 
     private Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log(level[curLevel].ToString());
+        var obj = level[curLevel].transform.GetComponentsInChildren<GameObject>();
+        coins = obj.Where(child => child.tag == "Coin").ToArray();
+        Debug.Log("Coin Count: "+ coins.Length);
         rb = GetComponent<Rigidbody>();
     }
 
@@ -29,14 +36,15 @@ public class MazeAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        transform.localPosition = checkPoint[startLevel];
+        var thisCheckPoint = level[curLevel].GetComponentsInChildren<GameObject>().Where(child => child.tag == "Checkpoint").ToArray()[0];
+        transform.localPosition = thisCheckPoint.transform.localPosition;
         coinCounter = 0;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(transform.localPosition);
-        sensor.AddObservation(exitDoor.localPosition);
+        //sensor.AddObservation(exitDoor.localPosition);
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
@@ -83,8 +91,15 @@ public class MazeAgent : Agent
     private void goal()
     {
         AddReward(2f * coinCounter);
-        startLevel++;
-        transform.localPosition = checkPoint[startLevel];
+        curLevel++;
+        var thisCheckPoint = level[curLevel].GetComponentsInChildren<GameObject>().Where(child => child.tag == "Goal").ToArray()[0];
+        transform.localPosition = thisCheckPoint.transform.localPosition;
 
+    }
+    private void newLevel()
+    {
+        coins = GameObject.FindGameObjectsWithTag("Coin");
+        Debug.Log("Coin Count: " + coins.Length);
+        coinCounter= 0;
     }
 }
