@@ -46,7 +46,7 @@ public class MazeAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(transform.localPosition);
-        //sensor.AddObservation(exitDoor.localPosition);
+        sensor.AddObservation(level[curLevel].goal.localPosition);
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
@@ -65,7 +65,6 @@ public class MazeAgent : Agent
         continuousActions[0] = Input.GetAxisRaw("Horizontal");
         continuousActions[1] = Input.GetAxisRaw("Vertical");
         continuousActions[2] = Input.GetAxisRaw("Jump");
-
     }
 
     private void OnCollisionEnter(Collision other)
@@ -74,7 +73,7 @@ public class MazeAgent : Agent
         {
             goal();
         }
-        if (other.gameObject.CompareTag("Trap"))
+        if (other.gameObject.CompareTag("Trap") || other.gameObject.CompareTag("Wall"))
         {
             die();
         }
@@ -83,22 +82,24 @@ public class MazeAgent : Agent
             coinCounter++;
             AddReward(0.5f*coinCounter);
         }
-
     }
+
     private void die()
     {
         AddReward(-20f);
         EndEpisode();
     }
+
     private void goal()
     {
         AddReward(2f * coinCounter);
         curLevel++;
         transform.localPosition = level[curLevel].goal.transform.localPosition;
-
     }
+
     private void newLevel()
     {
         coinCounter= 0;
     }
+
 }
