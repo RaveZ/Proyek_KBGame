@@ -5,26 +5,29 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using System.Linq;
+using System;
 
 public class MazeAgent : Agent
 {
-    [SerializeField] private GameObject[] level;
-    //[SerializeField] private Transform[] checkPoint;
-    //[SerializeField] private Transform[] exitDoor;
+    [Serializable]
+    class Level
+    {
+        public Transform spawn;
+        public Transform goal;
+        public GameObject[] coins; 
+
+    }
+
+    [SerializeField] private Level[] level;
     [SerializeField] private float speed= 3f;
     [SerializeField] private float jumpPower=20f;
     [SerializeField] private int curLevel = 0;
-    private GameObject[] coins;
     private int coinCounter = 0;
 
     private Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log(level[curLevel].ToString());
-        var obj = level[curLevel].transform.GetComponentsInChildren<GameObject>();
-        coins = obj.Where(child => child.tag == "Coin").ToArray();
-        Debug.Log("Coin Count: "+ coins.Length);
         rb = GetComponent<Rigidbody>();
     }
 
@@ -36,8 +39,7 @@ public class MazeAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        var thisCheckPoint = level[curLevel].GetComponentsInChildren<GameObject>().Where(child => child.tag == "Checkpoint").ToArray()[0];
-        transform.localPosition = thisCheckPoint.transform.localPosition;
+        transform.localPosition = level[curLevel].spawn.localPosition;
         coinCounter = 0;
     }
 
@@ -92,14 +94,11 @@ public class MazeAgent : Agent
     {
         AddReward(2f * coinCounter);
         curLevel++;
-        var thisCheckPoint = level[curLevel].GetComponentsInChildren<GameObject>().Where(child => child.tag == "Goal").ToArray()[0];
-        transform.localPosition = thisCheckPoint.transform.localPosition;
+        transform.localPosition = level[curLevel].goal.transform.localPosition;
 
     }
     private void newLevel()
     {
-        coins = GameObject.FindGameObjectsWithTag("Coin");
-        Debug.Log("Coin Count: " + coins.Length);
         coinCounter= 0;
     }
 }
