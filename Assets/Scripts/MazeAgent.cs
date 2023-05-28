@@ -19,8 +19,9 @@ public class MazeAgent : Agent
     }
 
     [SerializeField] private Level[] level;
-    [SerializeField] private float speed= 3f;
-    [SerializeField] private float jumpPower=20f;
+    [SerializeField] private float speed= 1f;
+    [SerializeField] private float jumpPower=10f;
+    private bool isJumping=false;
     [SerializeField] private int curLevel = 0;
     private int coinCounter = 0;
 
@@ -41,12 +42,24 @@ public class MazeAgent : Agent
     {
         transform.localPosition = level[curLevel].spawn.localPosition;
         coinCounter = 0;
+        foreach(GameObject coin in level[curLevel].coins)
+        {
+            coin.SetActive(true);
+        }
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(transform.localPosition);
-        sensor.AddObservation(level[curLevel].goal.localPosition);
+        sensor.AddObservation(rb.velocity.normalized);
+        for (int i = 0; i<level.Length; i++)
+        {
+            sensor.AddObservation(level[i].goal.localPosition);
+            foreach(GameObject coin in level[i].coins)
+            {
+                sensor.AddObservation(coin.transform.localPosition);
+            }
+        }
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
@@ -55,16 +68,23 @@ public class MazeAgent : Agent
         float force = actions.ContinuousActions[2];
         
         transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * speed;
-        rb.AddForce(0,0,force * jumpPower);
+        if(force > 0)
+        {
+            isJumping = true;
+        }
+        if(!isJumping)
+        {
+            rb.AddForce(0, force * jumpPower, 0);
+            Debug.Log(force * jumpPower);
+        }
     }
-
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
         continuousActions[0] = Input.GetAxisRaw("Horizontal");
         continuousActions[1] = Input.GetAxisRaw("Vertical");
-        continuousActions[2] = Input.GetAxisRaw("Jump");
+        continuousActions[2] = Math.Abs(Input.GetAxisRaw("Jump"));
     }
 
     private void OnCollisionEnter(Collision other)
@@ -79,8 +99,13 @@ public class MazeAgent : Agent
         }
         if (other.gameObject.CompareTag("Coin"))
         {
+            other.gameObject.SetActive(false);
             coinCounter++;
-            AddReward(0.5f*coinCounter);
+            AddReward(1f*coinCounter);
+        }
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            isJumping = false;
         }
     }
 
@@ -93,13 +118,9 @@ public class MazeAgent : Agent
     private void goal()
     {
         AddReward(2f * coinCounter);
+        coinCounter = 0;
         curLevel++;
         transform.localPosition = level[curLevel].goal.transform.localPosition;
-    }
-
-    private void newLevel()
-    {
-        coinCounter= 0;
     }
 
 }
