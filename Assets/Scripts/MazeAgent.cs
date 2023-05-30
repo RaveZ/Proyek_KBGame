@@ -21,6 +21,7 @@ public class MazeAgent : Agent
     [SerializeField] private Level[] level;
     [SerializeField] private float speed= 1f;
     [SerializeField] private float jumpPower=10f;
+    [SerializeField] private int sightDistance;
     private bool isJumping=false;
     [SerializeField] private int curLevel = 0;
     private int coinCounter = 0;
@@ -35,7 +36,6 @@ public class MazeAgent : Agent
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public override void OnEpisodeBegin()
@@ -52,15 +52,37 @@ public class MazeAgent : Agent
     {
         sensor.AddObservation(transform.localPosition);
         sensor.AddObservation(rb.velocity.normalized);
-        for (int i = 0; i<level.Length; i++)
+        for (int i = 0; i < level.Length; i++)
         {
             sensor.AddObservation(level[i].goal.localPosition);
-            foreach(GameObject coin in level[i].coins)
+            foreach (GameObject coin in level[i].coins)
             {
                 sensor.AddObservation(coin.transform.localPosition);
             }
         }
+
+        SensorRaycast(sensor, transform.forward);
+        SensorRaycast(sensor, -transform.forward);
+        SensorRaycast(sensor, transform.right);
+        SensorRaycast(sensor, -transform.right);
     }
+
+    private void SensorRaycast(VectorSensor sensor, Vector3 direction)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, direction, out hit, sightDistance))
+        {
+            if (hit.transform.CompareTag("Wall"))
+            {
+                sensor.AddObservation(-0.5f);
+            }
+            if (hit.transform.CompareTag("Trap"))
+            {
+                sensor.AddObservation(-1f);
+            }
+        }
+    }
+
     public override void OnActionReceived(ActionBuffers actions)
     {
         float moveX = actions.ContinuousActions[0];
