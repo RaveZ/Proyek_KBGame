@@ -320,10 +320,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4567728893396615968}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -50, y: 4, z: -44.8}
-  m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4567728892688196106}
   - {fileID: 4567728893942380198}
@@ -411,7 +411,9 @@ MonoBehaviour:
     - {fileID: 0}
   speed: 7
   jumpPower: 20
+  sightDistance: 50
   curLevel: 0
+  coinCounter: 0
 --- !u!114 &4567728893396615995
 MonoBehaviour:
   m_ObjectHideFlags: 0

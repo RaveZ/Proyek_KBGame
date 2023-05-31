@@ -24,8 +24,8 @@ public class MazeAgent : Agent
     [SerializeField] private int sightDistance;
     private bool isJumping=false;
     [SerializeField] private int curLevel = 0;
-    private int coinCounter = 0;
-
+    public int coinCounter = 0;
+    public Vector3[] offsetRay = new Vector3[4];
     private Rigidbody rb;
     // Start is called before the first frame update
     void Start()
@@ -44,41 +44,37 @@ public class MazeAgent : Agent
         coinCounter = 0;
         foreach(GameObject coin in level[curLevel].coins)
         {
-            coin.SetActive(true);
+            coin.SetActive(false);
         }
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(transform.localPosition);
+        sensor.AddObservation(transform.localPosition.normalized);
         sensor.AddObservation(rb.velocity.normalized);
-        for (int i = 0; i < level.Length; i++)
-        {
-            sensor.AddObservation(level[i].goal.localPosition);
-            foreach (GameObject coin in level[i].coins)
-            {
-                sensor.AddObservation(coin.transform.localPosition);
-            }
-        }
 
-        SensorRaycast(sensor, transform.forward);
-        SensorRaycast(sensor, -transform.forward);
-        SensorRaycast(sensor, transform.right);
-        SensorRaycast(sensor, -transform.right);
+        SensorRaycast(sensor, transform.forward, offsetRay[0]); // depan
+        SensorRaycast(sensor, -transform.forward, offsetRay[1]); // belakang
+        SensorRaycast(sensor, transform.right, offsetRay[2]); // kanan
+        SensorRaycast(sensor, -transform.right, offsetRay[3]); // kiri
     }
 
-    private void SensorRaycast(VectorSensor sensor, Vector3 direction)
+    private void SensorRaycast(VectorSensor sensor, Vector3 direction, Vector3 offset)
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, direction, out hit, sightDistance))
+        if (Physics.Raycast(transform.position + offset, direction, out hit, sightDistance))
         {
-            if (hit.transform.CompareTag("Wall"))
-            {
-                sensor.AddObservation(-0.5f);
-            }
-            if (hit.transform.CompareTag("Trap"))
+            if (hit.collider.transform.CompareTag("Wall"))
             {
                 sensor.AddObservation(-1f);
+            }
+            if (hit.collider.transform.CompareTag("Trap"))
+            {
+                sensor.AddObservation(-1f);
+            }
+            if(hit.collider.transform.CompareTag("Coin"))
+            {
+                sensor.AddObservation(1f);
             }
         }
     }
@@ -89,6 +85,8 @@ public class MazeAgent : Agent
         float moveZ = actions.ContinuousActions[1];
         float force = actions.ContinuousActions[2];
         
+        var rb = GetComponent<Rigidbody>();
+        //rb.velocity = new Vector3(moveX, 0, moveZ)* speed;
         transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * speed;
         if(force > 0)
         {
@@ -96,8 +94,12 @@ public class MazeAgent : Agent
         }
         if(!isJumping)
         {
-            rb.AddForce(0, force * jumpPower, 0);
-            Debug.Log(force * jumpPower);
+            if(force > 0)
+            {
+                rb.AddForce(0, force * jumpPower, 0);
+/*                Debug.Log(force + "force");*/
+            }
+            
         }
     }
 
@@ -111,38 +113,70 @@ public class MazeAgent : Agent
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Goal"))
+        print(other.transform.name);
+        if (other.collider.gameObject.CompareTag("Goal"))
         {
             goal();
         }
-        if (other.gameObject.CompareTag("Trap") || other.gameObject.CompareTag("Wall"))
+        if (other.collider.gameObject.CompareTag("Trap"))
         {
             die();
         }
-        if (other.gameObject.CompareTag("Coin"))
+        if (other.collider.gameObject.CompareTag("Coin"))
         {
+            Debug.Log("coin??");
             other.gameObject.SetActive(false);
             coinCounter++;
-            AddReward(1f*coinCounter);
+            AddReward(1f* (coinCounter / level[curLevel].coins.Length));
         }
-        if (other.gameObject.CompareTag("Ground"))
+        if (other.collider.gameObject.CompareTag("Ground"))
         {
             isJumping = false;
+        }
+        if (other.collider.gameObject.CompareTag("Wall"))
+        {
+            print("wall");
+            AddReward(-1f);
         }
     }
 
     private void die()
     {
-        AddReward(-20f);
+        AddReward(-1f);
         EndEpisode();
     }
 
     private void goal()
     {
-        AddReward(2f * coinCounter);
+        Debug.Log("goals");
+        print(level.Length);
+        if (level[curLevel].coins.Length > 0)
+        {
+            AddReward(1f * (coinCounter / level[curLevel].coins.Length));
+        }
+        else
+        {
+            AddReward(1f);
+        }
         coinCounter = 0;
         curLevel++;
-        transform.localPosition = level[curLevel].goal.transform.localPosition;
+        if(curLevel< level.Length)
+        {
+            transform.localPosition = level[curLevel].goal.transform.localPosition;
+        }
+        else
+        {
+            EndEpisode();
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position + offsetRay[0], transform.forward * sightDistance);
+        Gizmos.DrawRay(transform.position + offsetRay[1], -transform.forward * sightDistance);
+        Gizmos.DrawRay(transform.position + offsetRay[2], transform.right * sightDistance);
+        Gizmos.DrawRay(transform.position + offsetRay[3], -transform.right * sightDistance);
     }
 
 }
