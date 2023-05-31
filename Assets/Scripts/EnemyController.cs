@@ -5,31 +5,41 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
+    public float Agression = 1;
     public float patrolRadius = 10f;
     public float chaseRadius = 20f;
     public float fieldOfViewAngle = 90f;
     public float loseSightDuration = 3f; // Time to patrol after losing sight of the player
+    public float agentSpeed = 10;
+    public float patrolInterval = 1f;
+    public GameObject player;
+    public int coinCounter;
+
     private NavMeshAgent agent;
     private Vector3 targetPosition;
-    private GameObject player;
     private bool isChasing = false;
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        player = GameObject.FindGameObjectWithTag("Player");
-        targetPosition = GetRandomPointOnNavMesh();
-        SetDestination(targetPosition);
+        player = gameObject.transform.parent.GetComponentInChildren<MazeAgent>().gameObject;
+        agent.speed = agentSpeed;
+        SetPatrol();
     }
 
+    public void SetSpeed(float agression)
+    {
+        agentSpeed = 2 * agression + 3; 
+    }
     private void Update()
     {
+        //coinCounter = player.GetComponent<MazeAgent>().coinCounter;
         if (!isChasing)
         {
             
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
             {
-                SetPatrol();
+                Invoke("SetPatrol", patrolInterval);
             }
             
             
