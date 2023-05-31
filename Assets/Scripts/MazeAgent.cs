@@ -18,19 +18,16 @@ public class MazeAgent : Agent
 
     }
 
-    [SerializeField] private Level[] level;
+    [SerializeField] private Level level;
     [SerializeField] private float speed= 1f;
     [SerializeField] private float jumpPower=10f;
     [SerializeField] private int sightDistance;
     private bool isJumping=false;
-    [SerializeField] private int curLevel = 0;
     public int coinCounter = 0;
     public Vector3[] offsetRay = new Vector3[4];
-    private Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -40,9 +37,9 @@ public class MazeAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        transform.localPosition = level[curLevel].spawn.localPosition;
+        transform.localPosition = level.spawn.localPosition;
         coinCounter = 0;
-        foreach(GameObject coin in level[curLevel].coins)
+        foreach(GameObject coin in level.coins)
         {
             coin.SetActive(false);
         }
@@ -50,9 +47,8 @@ public class MazeAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(transform.localPosition.normalized);
-        sensor.AddObservation(rb.velocity.normalized);
-
+        sensor.AddObservation(transform.localPosition);
+        sensor.AddObservation(level.goal.transform.localPosition);
         SensorRaycast(sensor, transform.forward, offsetRay[0]); // depan
         SensorRaycast(sensor, -transform.forward, offsetRay[1]); // belakang
         SensorRaycast(sensor, transform.right, offsetRay[2]); // kanan
@@ -73,6 +69,10 @@ public class MazeAgent : Agent
                 sensor.AddObservation(-1f);
             }
             if(hit.collider.transform.CompareTag("Coin"))
+            {
+                sensor.AddObservation(1f);
+            }
+            if (hit.collider.transform.CompareTag("Goal"))
             {
                 sensor.AddObservation(1f);
             }
@@ -113,7 +113,6 @@ public class MazeAgent : Agent
 
     private void OnCollisionEnter(Collision other)
     {
-        print(other.transform.name);
         if (other.collider.gameObject.CompareTag("Goal"))
         {
             goal();
@@ -127,7 +126,7 @@ public class MazeAgent : Agent
             Debug.Log("coin??");
             other.gameObject.SetActive(false);
             coinCounter++;
-            AddReward(1f* (coinCounter / level[curLevel].coins.Length));
+            AddReward(1f* (coinCounter / level.coins.Length));
         }
         if (other.collider.gameObject.CompareTag("Ground"))
         {
@@ -149,25 +148,17 @@ public class MazeAgent : Agent
     private void goal()
     {
         Debug.Log("goals");
-        print(level.Length);
-        if (level[curLevel].coins.Length > 0)
+        if (level.coins.Length > 0)
         {
-            AddReward(1f * (coinCounter / level[curLevel].coins.Length));
+            AddReward(1f * (coinCounter / level.coins.Length));
         }
         else
         {
             AddReward(1f);
         }
         coinCounter = 0;
-        curLevel++;
-        if(curLevel< level.Length)
-        {
-            transform.localPosition = level[curLevel].goal.transform.localPosition;
-        }
-        else
-        {
-            EndEpisode();
-        }
+
+        EndEpisode();
     }
 
     private void OnDrawGizmos()

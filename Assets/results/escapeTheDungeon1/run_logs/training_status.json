@@ -2,22 +2,31 @@
     "EscapingTheDungeon": {
         "checkpoints": [
             {
-                "steps": 32000,
-                "file_path": "results\\EscapeTheDungeon1\\EscapingTheDungeon\\EscapingTheDungeon-32000.onnx",
-                "reward": 0.0,
-                "creation_time": 1685539490.2756627,
+                "steps": 109583,
+                "file_path": "results\\EscapeTheDungeon1\\EscapingTheDungeon\\EscapingTheDungeon-109583.onnx",
+                "reward": 0.9753086419753086,
+                "creation_time": 1685545501.2967763,
                 "auxillary_file_paths": [
-                    "results\\EscapeTheDungeon1\\EscapingTheDungeon\\EscapingTheDungeon-32000.pt"
+                    "results\\EscapeTheDungeon1\\EscapingTheDungeon\\EscapingTheDungeon-109583.pt"
+                ]
+            },
+            {
+                "steps": 268496,
+                "file_path": "results\\EscapeTheDungeon1\\EscapingTheDungeon\\EscapingTheDungeon-268496.onnx",
+                "reward": -6.409090909090909,
+                "creation_time": 1685545747.4273098,
+                "auxillary_file_paths": [
+                    "results\\EscapeTheDungeon1\\EscapingTheDungeon\\EscapingTheDungeon-268496.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 32000,
+            "steps": 268496,
             "file_path": "results\\EscapeTheDungeon1\\EscapingTheDungeon.onnx",
-            "reward": 0.0,
-            "creation_time": 1685539490.2756627,
+            "reward": -6.409090909090909,
+            "creation_time": 1685545747.4273098,
             "auxillary_file_paths": [
-                "results\\EscapeTheDungeon1\\EscapingTheDungeon\\EscapingTheDungeon-32000.pt"
+                "results\\EscapeTheDungeon1\\EscapingTheDungeon\\EscapingTheDungeon-268496.pt"
             ]
         }
     },
