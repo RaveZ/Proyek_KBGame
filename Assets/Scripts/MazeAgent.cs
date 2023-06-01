@@ -6,13 +6,15 @@ using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using System.Linq;
 using System;
+using Random = UnityEngine.Random;
+using Unity.VisualScripting;
 
 public class MazeAgent : Agent
 {
     [Serializable]
     class Level
     {
-        public Transform spawn;
+        public Transform[] spawnLoc;
         public Transform goal;
         public GameObject[] coins; 
 
@@ -25,9 +27,18 @@ public class MazeAgent : Agent
     private bool isJumping=false;
     public int coinCounter = 0;
     public Vector3[] offsetRay = new Vector3[4];
+    //public GameObject[] coins;
     // Start is called before the first frame update
     void Start()
     {
+        level.goal = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Goal")).ToArray()[0];
+        level.spawnLoc = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Spawn")).ToArray();
+        var c  = gameObject.transform.parent.gameObject.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Coin")).ToArray();
+        foreach(var coin in c)
+        {
+            level.coins.Append(coin.gameObject);
+        }
+
     }
 
     // Update is called once per frame
@@ -37,7 +48,8 @@ public class MazeAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        transform.localPosition = level.spawn.localPosition;
+        int random = Random.Range(0,level.spawnLoc.Length);
+        transform.localPosition = level.spawnLoc[random].localPosition;
         coinCounter = 0;
         foreach(GameObject coin in level.coins)
         {
