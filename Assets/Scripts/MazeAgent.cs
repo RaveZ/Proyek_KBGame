@@ -16,7 +16,8 @@ public class MazeAgent : Agent
     {
         public Transform[] spawnLoc;
         public Transform goal;
-        public GameObject[] coins; 
+        public GameObject[] coins;
+        public GameObject[] Enemies;
 
     }
 
@@ -33,17 +34,16 @@ public class MazeAgent : Agent
     {
         level.goal = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Goal")).ToArray()[0];
         level.spawnLoc = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Spawn")).ToArray();
-        var c  = gameObject.transform.parent.gameObject.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Coin")).ToArray();
-        foreach(var coin in c)
-        {
-            level.coins.Append(coin.gameObject);
-        }
-
+        level.coins = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Coin")).Select(coin => coin.gameObject).ToArray();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (transform.position.y < -5)
+        {
+            EndEpisode();
+        }
     }
 
     public override void OnEpisodeBegin()
@@ -53,7 +53,7 @@ public class MazeAgent : Agent
         coinCounter = 0;
         foreach(GameObject coin in level.coins)
         {
-            coin.SetActive(false);
+            coin.SetActive(true);
         }
     }
 
@@ -61,6 +61,15 @@ public class MazeAgent : Agent
     {
         sensor.AddObservation(transform.localPosition);
         sensor.AddObservation(level.goal.transform.localPosition);
+        foreach(Transform loc in level.spawnLoc)
+        {
+            sensor.AddObservation(loc.localPosition);
+        }
+        foreach(GameObject coin in level.coins)
+        {
+            sensor.AddObservation(coin.transform.localPosition);
+        }
+
         SensorRaycast(sensor, transform.forward, offsetRay[0]); // depan
         SensorRaycast(sensor, -transform.forward, offsetRay[1]); // belakang
         SensorRaycast(sensor, transform.right, offsetRay[2]); // kanan

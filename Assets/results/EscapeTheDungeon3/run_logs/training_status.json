@@ -1,0 +1,65 @@
+{
+    "EscapingTheDungeon": {
+        "checkpoints": [
+            {
+                "steps": 499916,
+                "file_path": "results\\EscapeTheDungeon3\\EscapingTheDungeon\\EscapingTheDungeon-499916.onnx",
+                "reward": -19.5,
+                "creation_time": 1685802954.742156,
+                "auxillary_file_paths": [
+                    "results\\EscapeTheDungeon3\\EscapingTheDungeon\\EscapingTheDungeon-499916.pt"
+                ]
+            },
+            {
+                "steps": 999998,
+                "file_path": "results\\EscapeTheDungeon3\\EscapingTheDungeon\\EscapingTheDungeon-999998.onnx",
+                "reward": null,
+                "creation_time": 1685803449.0640821,
+                "auxillary_file_paths": [
+                    "results\\EscapeTheDungeon3\\EscapingTheDungeon\\EscapingTheDungeon-999998.pt"
+                ]
+            },
+            {
+                "steps": 1499885,
+                "file_path": "results\\EscapeTheDungeon3\\EscapingTheDungeon\\EscapingTheDungeon-1499885.onnx",
+                "reward": -4.0,
+                "creation_time": 1685803942.9821887,
+                "auxillary_file_paths": [
+                    "results\\EscapeTheDungeon3\\EscapingTheDungeon\\EscapingTheDungeon-1499885.pt"
+                ]
+            },
+            {
+                "steps": 1999954,
+                "file_path": "results\\EscapeTheDungeon3\\EscapingTheDungeon\\EscapingTheDungeon-1999954.onnx",
+                "reward": -2.0,
+                "creation_time": 1685804449.6651616,
+                "auxillary_file_paths": [
+                    "results\\EscapeTheDungeon3\\EscapingTheDungeon\\EscapingTheDungeon-1999954.pt"
+                ]
+            },
+            {
+                "steps": 2077103,
+                "file_path": "results\\EscapeTheDungeon3\\EscapingTheDungeon\\EscapingTheDungeon-2077103.onnx",
+                "reward": null,
+                "creation_time": 1685804526.5419698,
+                "auxillary_file_paths": [
+                    "results\\EscapeTheDungeon3\\EscapingTheDungeon\\EscapingTheDungeon-2077103.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2077103,
+            "file_path": "results\\EscapeTheDungeon3\\EscapingTheDungeon.onnx",
+            "reward": null,
+            "creation_time": 1685804526.5419698,
+            "auxillary_file_paths": [
+                "results\\EscapeTheDungeon3\\EscapingTheDungeon\\EscapingTheDungeon-2077103.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}
