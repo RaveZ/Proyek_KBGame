@@ -8,6 +8,8 @@ using System.Linq;
 using System;
 using Random = UnityEngine.Random;
 using Unity.VisualScripting;
+using static Unity.VisualScripting.Member;
+using UnityEngine.UIElements;
 
 public class MazeAgent : Agent
 {
@@ -44,6 +46,16 @@ public class MazeAgent : Agent
         {
             EndEpisode();
         }
+        /*if (Input.GetKeyDown(KeyCode.Space))
+        {
+            float force = 1;
+            if (!isJumping && force != 0)
+            {
+                Debug.Log(force + "force   " + isJumping);
+                isJumping = true;
+                GetComponent<Rigidbody>().AddForce(0, force*jumpPower, 0);
+            }
+        }*/
     }
 
     public override void OnEpisodeBegin()
@@ -54,9 +66,11 @@ public class MazeAgent : Agent
         foreach(GameObject coin in level.coins)
         {
             coin.SetActive(true);
+            coin.transform.parent.gameObject.SetActive(true);
         }
+        print("Begin");
     }
-
+    
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(transform.localPosition);
@@ -104,36 +118,32 @@ public class MazeAgent : Agent
     {
         float moveX = actions.ContinuousActions[0];
         float moveZ = actions.ContinuousActions[1];
-        float force = actions.ContinuousActions[2];
+        float force = Math.Abs(actions.ContinuousActions[2]);
         
         var rb = GetComponent<Rigidbody>();
         //rb.velocity = new Vector3(moveX, 0, moveZ)* speed;
         transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * speed;
-        if(force > 0)
+        
+        if(!isJumping && force != 0)
         {
+            Debug.Log(force + "force   " + isJumping);
             isJumping = true;
-        }
-        if(!isJumping)
-        {
-            if(force > 0)
-            {
-                rb.AddForce(0, force * jumpPower, 0);
-/*                Debug.Log(force + "force");*/
-            }
-            
+            rb.AddForce(0, force * jumpPower, 0);
         }
     }
+    
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
         continuousActions[0] = Input.GetAxisRaw("Horizontal");
         continuousActions[1] = Input.GetAxisRaw("Vertical");
-        continuousActions[2] = Math.Abs(Input.GetAxisRaw("Jump"));
+        continuousActions[2] = Input.GetAxisRaw("Jump");
     }
 
     private void OnCollisionEnter(Collision other)
     {
+        print(other.collider.gameObject);
         if (other.collider.gameObject.CompareTag("Goal"))
         {
             goal();
@@ -144,10 +154,9 @@ public class MazeAgent : Agent
         }
         if (other.collider.gameObject.CompareTag("Coin"))
         {
-            Debug.Log("coin??");
             other.gameObject.SetActive(false);
             coinCounter++;
-            AddReward(1f* (coinCounter / level.coins.Length));
+            AddReward(1f);
         }
         if (other.collider.gameObject.CompareTag("Ground"))
         {
@@ -155,28 +164,19 @@ public class MazeAgent : Agent
         }
         if (other.collider.gameObject.CompareTag("Wall"))
         {
-            print("wall");
-            AddReward(-1f);
+            die();
         }
     }
 
     private void die()
     {
-        AddReward(-1f);
+        SetReward(-1f);
         EndEpisode();
     }
 
     private void goal()
     {
-        Debug.Log("goals");
-        if (level.coins.Length > 0)
-        {
-            AddReward(1f * (coinCounter / level.coins.Length));
-        }
-        else
-        {
-            AddReward(1f);
-        }
+        AddReward(1f);
         coinCounter = 0;
 
         EndEpisode();

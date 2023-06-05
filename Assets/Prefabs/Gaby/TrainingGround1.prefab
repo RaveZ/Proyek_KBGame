@@ -44,106 +44,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Agent
       objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615972, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: m_BrainParameters.VectorObservationSize
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615972, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: m_BrainParameters.VectorActionSize.Array.data[0]
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615972, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: m_BrainParameters.m_ActionSpec.m_NumContinuousActions
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: speed
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: MaxStep
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.goal
-      value: 
-      objectReference: {fileID: 6940152155431953675}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.spawn
-      value: 
-      objectReference: {fileID: 7276128629909038050}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: sightDistance
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.Array.data[0].goal
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.Array.data[1].goal
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.Array.data[2].goal
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.Array.data[3].goal
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.Array.data[0].spawn
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.Array.data[1].spawn
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.Array.data[2].spawn
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.Array.data[3].spawn
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: offsetRay.Array.data[0].z
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: offsetRay.Array.data[1].z
-      value: -0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: offsetRay.Array.data[2].x
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: offsetRay.Array.data[3].x
-      value: -0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.Array.data[0].coins.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.Array.data[1].coins.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615973, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: level.Array.data[2].coins.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567728893396615974, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
-      propertyPath: m_IsKinematic
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4567728893396615975, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -188,8 +88,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4567728893057593228, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b9e0e609ccd00d468b93768a596ade6, type: 3}
 --- !u!4 &1240178428911213662 stripped
 Transform:
@@ -256,15 +155,5 @@ PrefabInstance:
 --- !u!4 &4748481185892071564 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3223249464774935124, guid: 5b9f9241d65fbc04a9682604cdce2d85, type: 3}
-  m_PrefabInstance: {fileID: 7880936738470247128}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &6940152155431953675 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 940946280173461459, guid: 5b9f9241d65fbc04a9682604cdce2d85, type: 3}
-  m_PrefabInstance: {fileID: 7880936738470247128}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7276128629909038050 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 694880651536439610, guid: 5b9f9241d65fbc04a9682604cdce2d85, type: 3}
   m_PrefabInstance: {fileID: 7880936738470247128}
   m_PrefabAsset: {fileID: 0}
