@@ -7,9 +7,6 @@ using Unity.MLAgents.Actuators;
 using System.Linq;
 using System;
 using Random = UnityEngine.Random;
-using Unity.VisualScripting;
-using static Unity.VisualScripting.Member;
-using UnityEngine.UIElements;
 
 public class MazeAgent : Agent
 {
@@ -19,10 +16,9 @@ public class MazeAgent : Agent
         public Transform[] spawnLoc;
         public Transform goal;
         public GameObject[] coins;
-        public GameObject[] Enemies;
 
     }
-
+    public GameObject[] enemies;
     [SerializeField] private Level level;
     [SerializeField] private float speed= 1f;
     [SerializeField] private float jumpPower=10f;
@@ -30,11 +26,16 @@ public class MazeAgent : Agent
     private bool isJumping=false;
     public int coinCounter = 0;
     public Vector3[] offsetRay = new Vector3[4];
-    //public GameObject[] coins;
+    public int maxHealth = 3;
+    private int health = 3;
+    private Material material;
+    
     // Start is called before the first frame update
     void Start()
     {
-        level.goal = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Goal")).ToArray()[0];
+        material = GetComponentInChildren<Material>();
+/*        enemies = gameObject.transform.parent.GetComponentsInChildren<EnemyController>().Select(enemy => enemy.gameObject).ToArray();
+*/        level.goal = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Goal")).ToArray()[0];
         level.spawnLoc = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Spawn")).ToArray();
         level.coins = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Coin")).Select(coin => coin.gameObject).ToArray();
     }
@@ -46,20 +47,13 @@ public class MazeAgent : Agent
         {
             EndEpisode();
         }
-        /*if (Input.GetKeyDown(KeyCode.Space))
-        {
-            float force = 1;
-            if (!isJumping && force != 0)
-            {
-                Debug.Log(force + "force   " + isJumping);
-                isJumping = true;
-                GetComponent<Rigidbody>().AddForce(0, force*jumpPower, 0);
-            }
-        }*/
     }
 
     public override void OnEpisodeBegin()
     {
+        health = maxHealth;
+        coinCounter = 0;
+        material.color = Color.green;
         int random = Random.Range(0,level.spawnLoc.Length);
         transform.localPosition = level.spawnLoc[random].localPosition;
         coinCounter = 0;
@@ -75,6 +69,12 @@ public class MazeAgent : Agent
     {
         sensor.AddObservation(transform.localPosition);
         sensor.AddObservation(level.goal.transform.localPosition);
+        foreach(GameObject enemy in enemies)
+        {
+            sensor.AddObservation(enemy.transform.localPosition);
+        }
+        sensor.AddObservation(health);
+        sensor.AddObservation(isJumping);
         foreach(Transform loc in level.spawnLoc)
         {
             sensor.AddObservation(loc.localPosition);
@@ -111,6 +111,10 @@ public class MazeAgent : Agent
             {
                 sensor.AddObservation(1f);
             }
+            if (hit.collider.transform.CompareTag("Enemy"))
+            {
+                sensor.AddObservation(-1f);
+            }
         }
     }
 
@@ -121,14 +125,12 @@ public class MazeAgent : Agent
         float force = Math.Abs(actions.ContinuousActions[2]);
         
         var rb = GetComponent<Rigidbody>();
-        //rb.velocity = new Vector3(moveX, 0, moveZ)* speed;
         transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * speed;
         
-        if(!isJumping && force != 0)
+        if(!isJumping && force >= 0.5f)
         {
-            Debug.Log(force + "force   " + isJumping);
             isJumping = true;
-            rb.AddForce(0, force * jumpPower, 0);
+            rb.AddForce(0, jumpPower, 0);
         }
     }
     
@@ -136,38 +138,55 @@ public class MazeAgent : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
-        continuousActions[0] = Input.GetAxisRaw("Horizontal");
-        continuousActions[1] = Input.GetAxisRaw("Vertical");
+        continuousActions[0] = Input.GetAxisRaw("Vertical"); //depan belakang
+        continuousActions[1] = Input.GetAxisRaw("Horizontal"); //Kiri kanan
         continuousActions[2] = Input.GetAxisRaw("Jump");
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        print(other.collider.gameObject);
         if (other.collider.gameObject.CompareTag("Goal"))
         {
             goal();
         }
         if (other.collider.gameObject.CompareTag("Trap"))
         {
+            gotHit();
+        }
+
+        if (other.collider.gameObject.CompareTag("Ground"))
+        {
+            isJumping = false;
+        }
+        if (other.collider.gameObject.CompareTag("Wall")|| other.collider.gameObject.CompareTag("Enemy"))
+        {
             die();
         }
-        if (other.collider.gameObject.CompareTag("Coin"))
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<Collider>().gameObject.CompareTag("Coin"))
         {
             other.gameObject.SetActive(false);
             coinCounter++;
             AddReward(1f);
         }
-        if (other.collider.gameObject.CompareTag("Ground"))
+    }
+    private void gotHit()
+    {
+        AddReward(-1f);
+        health -= 1;
+        if(health == 2)
         {
-            isJumping = false;
-        }
-        if (other.collider.gameObject.CompareTag("Wall"))
+            material.color = Color.yellow;
+        }else if (health == 1) 
+        {
+            material.color = Color.red;
+        }else if( health <=0)
         {
             die();
         }
     }
-
     private void die()
     {
         SetReward(-1f);
@@ -176,9 +195,17 @@ public class MazeAgent : Agent
 
     private void goal()
     {
-        AddReward(1f);
+        if(health == 3)
+        {
+            AddReward(10f);
+        }else if (health == 2)
+        {
+            AddReward(6f);
+        }else if (health == 1)
+        {
+            AddReward(3f);
+        }
         coinCounter = 0;
-
         EndEpisode();
     }
 

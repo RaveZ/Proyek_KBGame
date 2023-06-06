@@ -540,6 +540,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6759560483948608961, guid: 9772c86f0db46dd44b3e4955a4def7b9, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7110371582933348266, guid: 9772c86f0db46dd44b3e4955a4def7b9, type: 3}
       propertyPath: m_Name
       value: TrainingGround0 (2)

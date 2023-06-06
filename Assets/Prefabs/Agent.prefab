@@ -386,8 +386,8 @@ MonoBehaviour:
     goal: {fileID: 0}
     coins: []
     Enemies: []
-  speed: 7
-  jumpPower: 600
+  speed: 4
+  jumpPower: 300
   sightDistance: 20
   coinCounter: 0
   offsetRay:
