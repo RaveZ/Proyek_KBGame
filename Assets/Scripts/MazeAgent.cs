@@ -33,11 +33,12 @@ public class MazeAgent : Agent
     // Start is called before the first frame update
     void Start()
     {
-        material = GetComponentInChildren<Material>();
-/*        enemies = gameObject.transform.parent.GetComponentsInChildren<EnemyController>().Select(enemy => enemy.gameObject).ToArray();
-*/        level.goal = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Goal")).ToArray()[0];
+        
+        /*        enemies = gameObject.transform.parent.GetComponentsInChildren<EnemyController>().Select(enemy => enemy.gameObject).ToArray();*/
+        level.goal = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Goal")).ToArray()[0];
         level.spawnLoc = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Spawn")).ToArray();
         level.coins = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Coin")).Select(coin => coin.gameObject).ToArray();
+        material = GetComponentsInChildren<Renderer>()[0].material;
     }
 
     // Update is called once per frame
