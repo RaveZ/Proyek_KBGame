@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,6 +16,7 @@ public class EnemyController : MonoBehaviour
     public GameObject player;
     public int coinCounter;
 
+    public int maxCoin;
     private NavMeshAgent agent;
     private Vector3 targetPosition;
     private bool isChasing = false;
@@ -23,20 +25,22 @@ public class EnemyController : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         player = gameObject.transform.parent.GetComponentInChildren<MazeAgent>().gameObject;
+        maxCoin = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Coin")).Select(coin => coin.gameObject).ToArray().Length;
         agent.speed = agentSpeed;
         SetPatrol();
     }
 
-    public void SetSpeed(float agression)
+    public void SetAgentSpeed(float agression)
     {
-        agentSpeed = 2 * agression + 3; 
+        agentSpeed = 2 * agression + 3;
+        agent.speed = agentSpeed;
     }
     private void Update()
     {
-        //coinCounter = player.GetComponent<MazeAgent>().coinCounter;
+        coinCounter = player.GetComponent<MazeAgent>().coinCounter;
+
         if (!isChasing)
         {
-            
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
             {
                 Invoke("SetPatrol", patrolInterval);
@@ -59,9 +63,13 @@ public class EnemyController : MonoBehaviour
             }
             else
             {
+                print("agent Detected");
                 SetDestination(player.transform.position);
             }
         }
+        CalculateAggresion(coinCounter);
+
+
     }
     void SetPatrol()
     {
@@ -82,6 +90,39 @@ public class EnemyController : MonoBehaviour
         agent.SetDestination(destination);
     }
 
+    private void CalculateAggresion(float _coinCollected)
+    {
+        if(_coinCollected > (maxCoin * 2 / 3) && agent.remainingDistance < (chaseRadius/2))
+        {
+            SetAgentSpeed(6);
+            patrolInterval = 1;
+        }else if (_coinCollected > (maxCoin * 2 / 3) && agent.remainingDistance > (chaseRadius / 2))
+        {
+            SetAgentSpeed(5);
+            patrolInterval = 1;
+        }
+        else if (_coinCollected > (maxCoin / 3) && agent.remainingDistance < (chaseRadius / 2))
+        {
+            SetAgentSpeed(4);
+            patrolInterval = 2;
+        }
+        else if (_coinCollected > (maxCoin / 3) && agent.remainingDistance > (chaseRadius / 2))
+        {
+            SetAgentSpeed(3);
+            patrolInterval = 2;
+        }
+        else if (_coinCollected >= 0 && agent.remainingDistance < (chaseRadius / 2))
+        {
+            SetAgentSpeed(2);
+            patrolInterval = 3;
+        }
+        else if (_coinCollected >= 0 && agent.remainingDistance > (chaseRadius / 2))
+        {
+            SetAgentSpeed(1);
+            patrolInterval = 3;
+        }
+    }
+
     private bool CanSeePlayer()
     {
         Vector3 directionToPlayer = player.transform.position - transform.position;
@@ -97,7 +138,6 @@ public class EnemyController : MonoBehaviour
                 }
             }
         }
-        
         return false;
     }
 

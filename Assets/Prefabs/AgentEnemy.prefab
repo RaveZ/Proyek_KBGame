@@ -98,7 +98,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0ae3f72e983f224281d6d07141b7cb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Agression: 1
   patrolRadius: 10
+  chaseRadius: 7.52
+  fieldOfViewAngle: 65.3
+  loseSightDuration: 3
+  agentSpeed: 10
+  patrolInterval: 3
+  player: {fileID: 0}
+  coinCounter: 0
+  maxCoin: 0
 --- !u!65 &4002718370354243059
 BoxCollider:
   m_ObjectHideFlags: 0

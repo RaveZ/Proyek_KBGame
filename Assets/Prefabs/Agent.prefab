@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 4567728893396615995}
   m_Layer: 0
   m_Name: Agent
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -381,11 +381,11 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
+  enemies: []
   level:
     spawnLoc: []
     goal: {fileID: 0}
     coins: []
-    Enemies: []
   speed: 4
   jumpPower: 300
   sightDistance: 20
@@ -395,6 +395,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+  maxHealth: 3
 --- !u!114 &4567728893396615995
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 275741593943145026}
   - component: {fileID: 275741593943145029}
   - component: {fileID: 275741593943145028}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Trap
   m_TagString: Trap
   m_Icon: {fileID: 0}
@@ -185,6 +185,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a3832e0ba0b703a4c83688bbda5ca6ab, type: 3}
       propertyPath: m_Name
       value: OPM0041
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a3832e0ba0b703a4c83688bbda5ca6ab, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3832e0ba0b703a4c83688bbda5ca6ab, type: 3}
