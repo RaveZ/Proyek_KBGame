@@ -141,13 +141,17 @@ public class MazeAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        float moveX = actions.ContinuousActions[0];
-        float moveZ = actions.ContinuousActions[1];
-        float force = Math.Abs(actions.ContinuousActions[2]);
+        float rotate = actions.ContinuousActions[0];
+        //float moveZ = actions.ContinuousActions[1];
+        float force = Math.Abs(actions.ContinuousActions[1]);
         
         var rb = GetComponent<Rigidbody>();
-        transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * speed;
+        transform.localPosition += transform.right * Time.deltaTime * speed;
         
+        if(rotate >= 0.5f)
+        {
+            transform.Rotate(new Vector3(0, 90f, 0));
+        }
         if(!isJumping && force >= 0.5f)
         {
             isJumping = true;
@@ -160,15 +164,16 @@ public class MazeAgent : Agent
     {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
         continuousActions[0] = Input.GetAxisRaw("Vertical"); //depan belakang
-        continuousActions[1] = Input.GetAxisRaw("Horizontal"); //Kiri kanan
-        continuousActions[2] = Input.GetAxisRaw("Jump");
+        //continuousActions[1] = Input.GetAxisRaw("Horizontal"); //Kiri kanan
+        continuousActions[1] = Input.GetAxisRaw("Jump");
     }
 
     private void OnCollisionEnter(Collision other)
     {
         if (other.collider.gameObject.CompareTag("Wall"))
         {
-            AddReward(-0.05f);
+            die();
+            /*AddReward(-0.05f);*/
         }
         if (other.collider.gameObject.CompareTag("Goal"))
         {
@@ -214,7 +219,7 @@ public class MazeAgent : Agent
     }
     private void die()
     {
-        AddReward(-5f);
+        AddReward(-1f);
         EndEpisode();
     }
 

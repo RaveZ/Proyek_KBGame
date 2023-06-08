@@ -192,7 +192,6 @@ GameObject:
   - component: {fileID: 4567728893057593229}
   - component: {fileID: 4567728893057593218}
   - component: {fileID: 4567728893057593219}
-  - component: {fileID: 4567728893057593228}
   m_Layer: 0
   m_Name: BackPack
   m_TagString: Untagged
@@ -265,20 +264,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &4567728893057593228
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4567728893057593230}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4567728893396615968
 GameObject:
   m_ObjectHideFlags: 0
@@ -308,8 +293,8 @@ Transform:
   m_GameObject: {fileID: 4567728893396615968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -50, y: 0.5, z: -44.8}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.7, y: 0.5, z: 0.8}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4567728892688196106}
   - {fileID: 4567728893942380198}
@@ -382,13 +367,13 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
   trapReward: -0.5
-  wallReward: -0.01
+  wallReward: -0.05
   enemies: []
   level:
     spawnLoc: []
     goal: {fileID: 0}
     coins: []
-  speed: 4
+  speed: 2.5
   jumpPower: 300
   sightDistance: 20
   coinCounter: 0
@@ -423,7 +408,6 @@ GameObject:
   - component: {fileID: 4567728893942380198}
   - component: {fileID: 4567728893942380219}
   - component: {fileID: 4567728893942380196}
-  - component: {fileID: 5370763523548044290}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -496,20 +480,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &5370763523548044290
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4567728893942380199}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  m_Radius: 0.5
-  m_Height: 0.66
-  m_Direction: 1
-  m_Center: {x: 0.0000019073486, y: 0, z: 0}
 --- !u!1 &4567728894125346154
 GameObject:
   m_ObjectHideFlags: 0
