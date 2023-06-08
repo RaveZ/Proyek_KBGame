@@ -50,6 +50,11 @@ public class MazeAgent : Agent
         {
             EndEpisode();
         }
+/*        if (StepCount - 1 == MaxStep)
+        {
+
+            die();
+        }*/
     }
 
     public override void OnEpisodeBegin()
@@ -94,6 +99,15 @@ public class MazeAgent : Agent
         SensorRaycast(sensor, -transform.forward, offsetRay[1]); // belakang
         SensorRaycast(sensor, transform.right, offsetRay[2]); // kanan
         SensorRaycast(sensor, -transform.right, offsetRay[3]); // kiri
+        RaycastHit[] hits = Physics.SphereCastAll(transform.position, 0.8f, transform.forward, 3.5f);
+        foreach (RaycastHit q in hits)
+        {
+            if (q.collider.transform.CompareTag("Coin"))
+            {
+                sensor.AddObservation(1f);
+            }
+
+        }
     }
 
     private void SensorRaycast(VectorSensor sensor, Vector3 direction, Vector3 offset)
@@ -122,6 +136,7 @@ public class MazeAgent : Agent
                 sensor.AddObservation(-1f);
             }
         }
+        
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -236,6 +251,8 @@ public class MazeAgent : Agent
         Gizmos.DrawRay(transform.position + offsetRay[1], -transform.forward * sightDistance);
         Gizmos.DrawRay(transform.position + offsetRay[2], transform.right * sightDistance);
         Gizmos.DrawRay(transform.position + offsetRay[3], -transform.right * sightDistance);
+        Gizmos.DrawWireSphere(transform.position, 3.5f);
+
     }
 
 }
