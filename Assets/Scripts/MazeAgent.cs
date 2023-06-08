@@ -78,13 +78,16 @@ public class MazeAgent : Agent
         }
         sensor.AddObservation(health);
         sensor.AddObservation(isJumping);
-        foreach(Transform loc in level.spawnLoc)
+/*        foreach(Transform loc in level.spawnLoc)
         {
             sensor.AddObservation(loc.localPosition);
-        }
+        }*/
         foreach(GameObject coin in level.coins)
         {
-            sensor.AddObservation(coin.transform.localPosition);
+            if (coin.activeSelf == true)
+            {
+                sensor.AddObservation(coin.transform.localPosition);
+            }
         }
 
         SensorRaycast(sensor, transform.forward, offsetRay[0]); // depan
@@ -196,13 +199,13 @@ public class MazeAgent : Agent
     }
     private void die()
     {
-        SetReward(-1f);
+        AddReward(-5f);
         EndEpisode();
     }
 
     private void goal()
     {
-        if(coinCounter == level.coins.Length)
+        if(coinCounter >= (int)(level.coins.Length*0.5))
         {
             if (health == 3)
             {
