@@ -381,6 +381,8 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
+  trapReward: -0.5
+  wallReward: -0.01
   enemies: []
   level:
     spawnLoc: []

@@ -1,0 +1,29 @@
+{
+    "EscapingTheDungeon": {
+        "checkpoints": [
+            {
+                "steps": 67725,
+                "file_path": "results\\EscapingTheDungeonUAS_3\\EscapingTheDungeon\\EscapingTheDungeon-67725.onnx",
+                "reward": null,
+                "creation_time": 1686191347.9508002,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_3\\EscapingTheDungeon\\EscapingTheDungeon-67725.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 67725,
+            "file_path": "results\\EscapingTheDungeonUAS_3\\EscapingTheDungeon.onnx",
+            "reward": null,
+            "creation_time": 1686191347.9508002,
+            "auxillary_file_paths": [
+                "results\\EscapingTheDungeonUAS_3\\EscapingTheDungeon\\EscapingTheDungeon-67725.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}

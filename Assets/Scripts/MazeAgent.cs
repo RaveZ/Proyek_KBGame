@@ -10,6 +10,8 @@ using Random = UnityEngine.Random;
 
 public class MazeAgent : Agent
 {
+    public float trapReward;
+    public float wallReward;
     [Serializable]
     class Level
     {
@@ -33,8 +35,8 @@ public class MazeAgent : Agent
     // Start is called before the first frame update
     void Start()
     {
-        
-        /*        enemies = gameObject.transform.parent.GetComponentsInChildren<EnemyController>().Select(enemy => enemy.gameObject).ToArray();*/
+
+        enemies = gameObject.transform.parent.GetComponentsInChildren<EnemyController>().Select(enemy => enemy.gameObject).ToArray();
         level.goal = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Goal")).ToArray()[0];
         level.spawnLoc = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Spawn")).ToArray();
         level.coins = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Coin")).Select(coin => coin.gameObject).ToArray();
@@ -146,6 +148,10 @@ public class MazeAgent : Agent
 
     private void OnCollisionEnter(Collision other)
     {
+        if (other.collider.gameObject.CompareTag("Wall"))
+        {
+            AddReward(-0.05f);
+        }
         if (other.collider.gameObject.CompareTag("Goal"))
         {
             goal();
@@ -159,7 +165,7 @@ public class MazeAgent : Agent
         {
             isJumping = false;
         }
-        if (other.collider.gameObject.CompareTag("Wall")|| other.collider.gameObject.CompareTag("Enemy"))
+        if (other.collider.gameObject.CompareTag("Enemy"))
         {
             die();
         }
@@ -175,7 +181,7 @@ public class MazeAgent : Agent
     }
     private void gotHit()
     {
-        AddReward(-1f);
+        AddReward(trapReward);
         health -= 1;
         if(health == 2)
         {
@@ -196,18 +202,28 @@ public class MazeAgent : Agent
 
     private void goal()
     {
-        if(health == 3)
+        if(coinCounter == level.coins.Length)
         {
-            AddReward(10f);
-        }else if (health == 2)
-        {
-            AddReward(6f);
-        }else if (health == 1)
-        {
-            AddReward(3f);
+            if (health == 3)
+            {
+                AddReward(3f);
+            }
+            else if (health == 2)
+            {
+                AddReward(2f);
+            }
+            else if (health == 1)
+            {
+                AddReward(1f);
+            }
+            coinCounter = 0;
+            EndEpisode();
         }
-        coinCounter = 0;
-        EndEpisode();
+        else
+        {
+            die();
+        }
+        
     }
 
     private void OnDrawGizmos()

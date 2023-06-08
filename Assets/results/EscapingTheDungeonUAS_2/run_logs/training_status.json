@@ -1,0 +1,92 @@
+{
+    "EscapingTheDungeon": {
+        "checkpoints": [
+            {
+                "steps": 499953,
+                "file_path": "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-499953.onnx",
+                "reward": 5.474999999627471,
+                "creation_time": 1686178763.0216722,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-499953.pt"
+                ]
+            },
+            {
+                "steps": 999929,
+                "file_path": "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-999929.onnx",
+                "reward": 9.893749992363155,
+                "creation_time": 1686179950.97328,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-999929.pt"
+                ]
+            },
+            {
+                "steps": 1499929,
+                "file_path": "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-1499929.onnx",
+                "reward": 9.749999947845936,
+                "creation_time": 1686181137.6716335,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-1499929.pt"
+                ]
+            },
+            {
+                "steps": 1999953,
+                "file_path": "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-1999953.onnx",
+                "reward": 8.537499899510294,
+                "creation_time": 1686182323.782989,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-1999953.pt"
+                ]
+            },
+            {
+                "steps": 2499929,
+                "file_path": "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-2499929.onnx",
+                "reward": 9.73749990016222,
+                "creation_time": 1686183515.5732448,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-2499929.pt"
+                ]
+            },
+            {
+                "steps": 2999929,
+                "file_path": "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-2999929.onnx",
+                "reward": 8.711111085696352,
+                "creation_time": 1686184706.1261916,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-2999929.pt"
+                ]
+            },
+            {
+                "steps": 3499953,
+                "file_path": "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-3499953.onnx",
+                "reward": 4.799999902024865,
+                "creation_time": 1686185897.8062537,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-3499953.pt"
+                ]
+            },
+            {
+                "steps": 3504313,
+                "file_path": "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-3504313.onnx",
+                "reward": 8.292857061007194,
+                "creation_time": 1686185907.6345963,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-3504313.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 3504313,
+            "file_path": "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon.onnx",
+            "reward": 8.292857061007194,
+            "creation_time": 1686185907.6345963,
+            "auxillary_file_paths": [
+                "results\\EscapingTheDungeonUAS_2\\EscapingTheDungeon\\EscapingTheDungeon-3504313.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}

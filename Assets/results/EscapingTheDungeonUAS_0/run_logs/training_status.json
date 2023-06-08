@@ -1,0 +1,56 @@
+{
+    "EscapingTheDungeon": {
+        "checkpoints": [
+            {
+                "steps": 499985,
+                "file_path": "results\\EscapingTheDungeonUAS_0\\EscapingTheDungeon\\EscapingTheDungeon-499985.onnx",
+                "reward": 6.111111111111111,
+                "creation_time": 1686167621.9164462,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_0\\EscapingTheDungeon\\EscapingTheDungeon-499985.pt"
+                ]
+            },
+            {
+                "steps": 999959,
+                "file_path": "results\\EscapingTheDungeonUAS_0\\EscapingTheDungeon\\EscapingTheDungeon-999959.onnx",
+                "reward": 9.714285714285714,
+                "creation_time": 1686169155.7045803,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_0\\EscapingTheDungeon\\EscapingTheDungeon-999959.pt"
+                ]
+            },
+            {
+                "steps": 1499911,
+                "file_path": "results\\EscapingTheDungeonUAS_0\\EscapingTheDungeon\\EscapingTheDungeon-1499911.onnx",
+                "reward": 9.6,
+                "creation_time": 1686170686.942461,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_0\\EscapingTheDungeon\\EscapingTheDungeon-1499911.pt"
+                ]
+            },
+            {
+                "steps": 1670445,
+                "file_path": "results\\EscapingTheDungeonUAS_0\\EscapingTheDungeon\\EscapingTheDungeon-1670445.onnx",
+                "reward": null,
+                "creation_time": 1686171210.8570735,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_0\\EscapingTheDungeon\\EscapingTheDungeon-1670445.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1670445,
+            "file_path": "results\\EscapingTheDungeonUAS_0\\EscapingTheDungeon.onnx",
+            "reward": null,
+            "creation_time": 1686171210.8570735,
+            "auxillary_file_paths": [
+                "results\\EscapingTheDungeonUAS_0\\EscapingTheDungeon\\EscapingTheDungeon-1670445.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}

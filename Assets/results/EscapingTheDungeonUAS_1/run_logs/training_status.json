@@ -1,0 +1,56 @@
+{
+    "EscapingTheDungeon": {
+        "checkpoints": [
+            {
+                "steps": 499903,
+                "file_path": "results\\EscapingTheDungeonUAS_1\\EscapingTheDungeon\\EscapingTheDungeon-499903.onnx",
+                "reward": 7.766666571299235,
+                "creation_time": 1686173717.755456,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_1\\EscapingTheDungeon\\EscapingTheDungeon-499903.pt"
+                ]
+            },
+            {
+                "steps": 999985,
+                "file_path": "results\\EscapingTheDungeonUAS_1\\EscapingTheDungeon\\EscapingTheDungeon-999985.onnx",
+                "reward": 9.804999842867256,
+                "creation_time": 1686174924.9005408,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_1\\EscapingTheDungeon\\EscapingTheDungeon-999985.pt"
+                ]
+            },
+            {
+                "steps": 1499906,
+                "file_path": "results\\EscapingTheDungeonUAS_1\\EscapingTheDungeon\\EscapingTheDungeon-1499906.onnx",
+                "reward": 9.749999969266355,
+                "creation_time": 1686176129.398559,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_1\\EscapingTheDungeon\\EscapingTheDungeon-1499906.pt"
+                ]
+            },
+            {
+                "steps": 1998858,
+                "file_path": "results\\EscapingTheDungeonUAS_1\\EscapingTheDungeon\\EscapingTheDungeon-1998858.onnx",
+                "reward": 8.884999959170818,
+                "creation_time": 1686177330.4133162,
+                "auxillary_file_paths": [
+                    "results\\EscapingTheDungeonUAS_1\\EscapingTheDungeon\\EscapingTheDungeon-1998858.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1998858,
+            "file_path": "results\\EscapingTheDungeonUAS_1\\EscapingTheDungeon.onnx",
+            "reward": 8.884999959170818,
+            "creation_time": 1686177330.4133162,
+            "auxillary_file_paths": [
+                "results\\EscapingTheDungeonUAS_1\\EscapingTheDungeon\\EscapingTheDungeon-1998858.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}
