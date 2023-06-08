@@ -13,9 +13,15 @@ public class EnemyController : MonoBehaviour
     public float loseSightDuration = 3f; // Time to patrol after losing sight of the player
     public float agentSpeed = 10;
     public float patrolInterval = 1f;
+    
     public GameObject player;
     public int coinCounter;
 
+    private float sedikit;
+    private float sedang;
+    private float banyak;
+    private float dekat;
+    private float jauh;
     public int maxCoin;
     private NavMeshAgent agent;
     private Vector3 targetPosition;
@@ -67,8 +73,8 @@ public class EnemyController : MonoBehaviour
                 SetDestination(player.transform.position);
             }
         }
-        CalculateAggresion(coinCounter);
-
+        CalculateFuzzy(coinCounter);
+        CalculateAggression();
 
     }
     void SetPatrol()
@@ -90,38 +96,67 @@ public class EnemyController : MonoBehaviour
         agent.SetDestination(destination);
     }
 
-    private void CalculateAggresion(float _coinCollected)
+    private void CalculateFuzzy(float _coinCollected)
     {
-        if(_coinCollected > (maxCoin * 2 / 3) && agent.remainingDistance < (chaseRadius/2))
+        //sedikit
+        if(_coinCollected <= maxCoin / 2)
         {
-            SetAgentSpeed(6);
-            patrolInterval = 1;
-        }else if (_coinCollected > (maxCoin * 2 / 3) && agent.remainingDistance > (chaseRadius / 2))
+            sedikit = (-2 * _coinCollected)/maxCoin + 1;
+        }else if (_coinCollected > maxCoin / 2)
         {
-            SetAgentSpeed(5);
-            patrolInterval = 1;
+            sedikit = 0;
         }
-        else if (_coinCollected > (maxCoin / 3) && agent.remainingDistance < (chaseRadius / 2))
+
+        //sedang
+        if (_coinCollected <= maxCoin / 2)
         {
-            SetAgentSpeed(4);
-            patrolInterval = 2;
+            sedang = (2 * _coinCollected) / maxCoin;
         }
-        else if (_coinCollected > (maxCoin / 3) && agent.remainingDistance > (chaseRadius / 2))
+        else if (_coinCollected > maxCoin / 2)
         {
-            SetAgentSpeed(3);
-            patrolInterval = 2;
+            sedang = 2 - (2 * _coinCollected / maxCoin);
         }
-        else if (_coinCollected >= 0 && agent.remainingDistance < (chaseRadius / 2))
+
+        //banyak
+        if (_coinCollected >= maxCoin / 2)
         {
-            SetAgentSpeed(2);
-            patrolInterval = 3;
+            banyak = (2 * _coinCollected) / maxCoin - 1;
         }
-        else if (_coinCollected >= 0 && agent.remainingDistance > (chaseRadius / 2))
+        else if (_coinCollected < maxCoin / 2)
         {
-            SetAgentSpeed(1);
-            patrolInterval = 3;
+            banyak = 0;
+        }
+
+        if(agent.remainingDistance <= 7)
+        {
+            dekat = 1;
+            jauh = 0;
+        }else if (agent.remainingDistance > 7 && agent.remainingDistance <= 8)
+        {
+            dekat = 8 - agent.remainingDistance;
+            jauh = agent.remainingDistance - 7;
+        }else if(agent.remainingDistance > 8)
+        {
+            dekat = 0;
+            jauh = 1;
         }
     }
+
+    private void CalculateAggression()
+    {
+        var w6 = Mathf.Min(banyak, dekat);
+        var w5 = Mathf.Min(banyak, jauh);
+        var w4 = Mathf.Min(sedang, dekat);
+        var w3 = Mathf.Min(sedang, jauh);
+        var w2 = Mathf.Min(sedikit, dekat);
+        var w1 = Mathf.Min(sedikit, jauh);
+
+        var a = (w1 + 2*w2 + 3*w3 + 4*w4 + 5*w5 + 6*w6) / (w1 + w2 + w3 + w4 + w5 + w6);
+
+        patrolInterval = (17 - 2 * a) / 5;
+        SetAgentSpeed(a);
+    }
+
 
     private bool CanSeePlayer()
     {
@@ -132,7 +167,7 @@ public class EnemyController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(transform.position, directionToPlayer, out hit, chaseRadius))
             {
-                if (hit.collider.gameObject.CompareTag("Player"))
+                if (hit.collider.transform.parent.gameObject.CompareTag("Player"))
                 {
                     return true;
                 }
