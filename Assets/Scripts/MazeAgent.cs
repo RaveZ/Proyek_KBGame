@@ -76,6 +76,7 @@ public class MazeAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(transform.localPosition);
+        sensor.AddObservation(transform.localRotation.y);
         sensor.AddObservation(level.goal.transform.localPosition);
         foreach(GameObject enemy in enemies)
         {
