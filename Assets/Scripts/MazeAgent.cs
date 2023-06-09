@@ -64,6 +64,7 @@ public class MazeAgent : Agent
         material.color = Color.green;
         int random = Random.Range(0,level.spawnLoc.Length);
         transform.localPosition = level.spawnLoc[random].localPosition;
+        transform.rotation = Quaternion.identity;
         coinCounter = 0;
         foreach(GameObject coin in level.coins)
         {
@@ -84,6 +85,7 @@ public class MazeAgent : Agent
         }
         sensor.AddObservation(health);
         sensor.AddObservation(isJumping);
+        sensor.AddObservation(coinCounter);
 /*        foreach(Transform loc in level.spawnLoc)
         {
             sensor.AddObservation(loc.localPosition);
@@ -152,6 +154,9 @@ public class MazeAgent : Agent
         if(rotate >= 0.5f)
         {
             transform.Rotate(new Vector3(0, 90f, 0));
+        }else if(rotate <= -0.5f)
+        {
+            transform.Rotate(new Vector3(0, -90f, 0));
         }
         if(!isJumping && force >= 0.5f)
         {
