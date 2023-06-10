@@ -21,6 +21,7 @@ public class MazeAgent : Agent
 
     }
     public GameObject[] enemies;
+    private Transform[] enemiesStart;
     [SerializeField] private Level level;
     [SerializeField] private float speed= 1f;
     [SerializeField] private float jumpPower=10f;
@@ -37,6 +38,7 @@ public class MazeAgent : Agent
     {
 
         enemies = gameObject.transform.parent.GetComponentsInChildren<EnemyController>().Select(enemy => enemy.gameObject).ToArray();
+        enemiesStart = enemies.Select(enemy => enemy.transform).ToArray();
         level.goal = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Goal")).ToArray()[0];
         level.spawnLoc = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Spawn")).ToArray();
         level.coins = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Coin")).Select(coin => coin.gameObject).ToArray();
@@ -66,6 +68,10 @@ public class MazeAgent : Agent
         transform.localPosition = level.spawnLoc[random].localPosition;
         transform.rotation = Quaternion.identity;
         coinCounter = 0;
+        for(int i = 0; i < enemies.Length; i++)
+        {
+            enemies[i].transform.localPosition = enemiesStart[i].transform.localPosition;
+        }
         foreach(GameObject coin in level.coins)
         {
             coin.SetActive(true);
