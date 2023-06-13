@@ -150,10 +150,15 @@ public class EnemyController : MonoBehaviour
         var w3 = Mathf.Min(sedang, jauh);
         var w2 = Mathf.Min(sedikit, dekat);
         var w1 = Mathf.Min(sedikit, jauh);
+        var z1 = 3 - 2 * w1;
+        var z2 = (2.5 * w2 + 0.5 + ((7 - w2) / 2)) / 2;
+        var z3 = (2.5 * w3 + 0.5 + ((7 - w3) / 2)) / 2;
+        var z4 = (2.5 * w4 + 2 + 5 - (w4 / 2)) / 2;
+        var z5 = (2.5 * w5 + 2 + 5 - (w5 / 2)) / 2;
+        var z6 = 2 * w6 - 4;
 
-        var a = (w1 + 2*w2 + 3*w3 + 4*w4 + 5*w5 + 6*w6) / (w1 + w2 + w3 + w4 + w5 + w6);
-
-        patrolInterval = (17 - 2 * a) / 5;
+        var a = (float) (w1*z1 + z2*w2 + z3*w3 + z4*w4 + z5*w5 + z6*w6) / (w1 + w2 + w3 + w4 + w5 + w6);
+        patrolInterval =  (17 - 2 * a) / 5;
         SetAgentSpeed(a);
     }
 
