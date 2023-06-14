@@ -21,7 +21,7 @@ public class MazeAgent : Agent
 
     }
     public GameObject[] enemies;
-    private Transform[] enemiesStart;
+    private Vector3[] enemiesStart;
     [SerializeField] private Level level;
     [SerializeField] private float speed= 1f;
     [SerializeField] private float jumpPower=10f;
@@ -38,7 +38,7 @@ public class MazeAgent : Agent
     {
 
         enemies = gameObject.transform.parent.GetComponentsInChildren<EnemyController>().Select(enemy => enemy.gameObject).ToArray();
-        enemiesStart = enemies.Select(enemy => enemy.transform).ToArray();
+        enemiesStart = enemies.Select(enemy => enemy.transform.localPosition).ToArray();
         level.goal = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Goal")).ToArray()[0];
         level.spawnLoc = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Spawn")).ToArray();
         level.coins = gameObject.transform.parent.GetComponentsInChildren<Transform>().Where(coin => coin.CompareTag("Coin")).Select(coin => coin.gameObject).ToArray();
@@ -70,7 +70,7 @@ public class MazeAgent : Agent
         coinCounter = 0;
         for(int i = 0; i < enemies.Length; i++)
         {
-            enemies[i].transform.localPosition = enemiesStart[i].transform.localPosition;
+            enemies[i].transform.localPosition = enemiesStart[i];
         }
         foreach(GameObject coin in level.coins)
         {
@@ -164,6 +164,7 @@ public class MazeAgent : Agent
         {
             transform.Rotate(new Vector3(0, -90f, 0));
         }
+
         if(!isJumping && force >= 0.5f)
         {
             isJumping = true;
@@ -237,27 +238,28 @@ public class MazeAgent : Agent
 
     private void goal()
     {
-        if(coinCounter >= (int)(level.coins.Length*0.5))
+        if (health == 3)
         {
-            if (health == 3)
-            {
-                AddReward(3f);
-            }
-            else if (health == 2)
-            {
-                AddReward(2f);
-            }
-            else if (health == 1)
-            {
-                AddReward(1f);
-            }
-            coinCounter = 0;
-            EndEpisode();
+            AddReward(3f);
+        }
+        else if (health == 2)
+        {
+            AddReward(2f);
+        }
+        else if (health == 1)
+        {
+            AddReward(1f);
+        }
+        coinCounter = 0;
+        EndEpisode();
+        /*if (coinCounter >= (int)(level.coins.Length*0.5))
+        {
+            
         }
         else
         {
             die();
-        }
+        }*/
         
     }
 
